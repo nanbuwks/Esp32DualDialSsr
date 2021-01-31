@@ -153,45 +153,6 @@ Connection ~ 6050 5800
 Wire Wire Line
 	7700 6050 8200 6050
 $Comp
-L Device:Rotary_Encoder_Switch SW2
-U 1 1 5FAF760A
-P 2050 5850
-F 0 "SW2" V 2096 5620 50  0000 R CNN
-F 1 "Rotary_Encoder_Switch" V 2005 5620 50  0000 R CNN
-F 2 "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm" H 1900 6010 50  0001 C CNN
-F 3 "~" H 2050 6110 50  0001 C CNN
-	1    2050 5850
-	0    -1   -1   0   
-$EndComp
-$Comp
-L power:GND #PWR0101
-U 1 1 5FAF7806
-P 2050 6150
-F 0 "#PWR0101" H 2050 5900 50  0001 C CNN
-F 1 "GND" H 2055 5977 50  0000 C CNN
-F 2 "" H 2050 6150 50  0001 C CNN
-F 3 "" H 2050 6150 50  0001 C CNN
-	1    2050 6150
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0102
-U 1 1 5FAF7810
-P 1650 5500
-F 0 "#PWR0102" H 1650 5250 50  0001 C CNN
-F 1 "GND" H 1655 5327 50  0000 C CNN
-F 2 "" H 1650 5500 50  0001 C CNN
-F 3 "" H 1650 5500 50  0001 C CNN
-	1    1650 5500
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1650 5500 1900 5500
-Wire Wire Line
-	1950 5500 1950 5550
-Wire Wire Line
-	1950 6150 1950 6400
-$Comp
 L Converter_ACDC:IRM-20-12 PS1
 U 1 1 5FAA002A
 P 14450 2250
@@ -280,15 +241,9 @@ F 3 "" H 6550 3900 60  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
-	4900 4400 5600 4400
-Wire Wire Line
-	5000 4500 5600 4500
-Wire Wire Line
 	6200 4750 6150 4750
 Wire Wire Line
 	6150 4750 6150 4850
-Wire Wire Line
-	6150 4850 5100 4850
 Wire Wire Line
 	7450 3300 7950 3300
 Wire Wire Line
@@ -354,29 +309,11 @@ $EndComp
 Wire Wire Line
 	5600 3300 5150 3300
 Wire Wire Line
-	2150 4950 3900 4950
-Wire Wire Line
-	1950 5200 3500 5200
-Wire Wire Line
-	1950 6400 2900 6400
-Wire Wire Line
-	5000 6150 3300 6150
-Wire Wire Line
-	2150 5500 2150 5550
-Wire Wire Line
-	4900 5500 2200 5500
-Wire Wire Line
 	5600 4300 4500 4300
 Wire Wire Line
 	3900 4200 3900 4950
 Wire Wire Line
 	4500 4300 4500 5200
-Wire Wire Line
-	4900 4400 4900 5500
-Wire Wire Line
-	5000 4500 5000 6150
-Wire Wire Line
-	5100 4850 5100 6400
 Wire Wire Line
 	2150 4100 2150 4350
 Wire Wire Line
@@ -535,18 +472,6 @@ Text GLabel 6900 5250 0    79   Input ~ 0
 PUMP
 Text GLabel 7450 3700 2    79   Input ~ 0
 OZON0
-Text GLabel 4700 3850 0    79   Input ~ 0
-OZON1
-Text GLabel 4700 4000 0    79   Input ~ 0
-OZON2
-Wire Wire Line
-	5600 3900 4750 3900
-Wire Wire Line
-	4750 3900 4750 3850
-Wire Wire Line
-	4750 3850 4700 3850
-Wire Wire Line
-	5600 4000 4700 4000
 Wire Wire Line
 	4500 2900 4750 2900
 $Comp
@@ -1212,112 +1137,8 @@ Wire Wire Line
 Connection ~ 2200 4100
 Wire Wire Line
 	2200 4100 5600 4100
-$Comp
-L Device:C C5
-U 1 1 600510FA
-P 2900 6600
-F 0 "C5" H 3015 6646 50  0000 L CNN
-F 1 "0.1uF" V 2850 6200 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 2938 6450 50  0001 C CNN
-F 3 "~" H 2900 6600 50  0001 C CNN
-	1    2900 6600
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	1900 5500 1900 5350
-Connection ~ 1900 5500
-Wire Wire Line
-	1900 5500 1950 5500
-Wire Wire Line
-	2200 5350 2200 5500
-Connection ~ 2200 5500
-Wire Wire Line
-	2200 5500 2150 5500
-$Comp
-L Device:C C7
-U 1 1 6006FD5B
-P 3300 6600
-F 0 "C7" H 3415 6646 50  0000 L CNN
-F 1 "0.1uF" V 3250 6200 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 3338 6450 50  0001 C CNN
-F 3 "~" H 3300 6600 50  0001 C CNN
-	1    3300 6600
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0135
-U 1 1 600708E3
-P 3100 6750
-F 0 "#PWR0135" H 3100 6500 50  0001 C CNN
-F 1 "GND" H 3105 6577 50  0000 C CNN
-F 2 "" H 3100 6750 50  0001 C CNN
-F 3 "" H 3100 6750 50  0001 C CNN
-	1    3100 6750
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	2900 6750 3100 6750
-Connection ~ 3100 6750
-Wire Wire Line
-	3100 6750 3300 6750
-Wire Wire Line
-	2900 6450 2900 6400
-Connection ~ 2900 6400
-Wire Wire Line
-	2900 6400 5100 6400
-Wire Wire Line
-	3300 6450 3300 6150
-Connection ~ 3300 6150
-Wire Wire Line
-	3300 6150 2150 6150
-$Comp
-L Device:C C8
-U 1 1 6008C4F7
-P 3500 5750
-F 0 "C8" H 3615 5796 50  0000 L CNN
-F 1 "0.1uF" V 3450 5350 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 3538 5600 50  0001 C CNN
-F 3 "~" H 3500 5750 50  0001 C CNN
-	1    3500 5750
-	1    0    0    -1  
-$EndComp
-$Comp
-L Device:C C9
-U 1 1 6008C75D
-P 3900 5750
-F 0 "C9" H 4015 5796 50  0000 L CNN
-F 1 "0.1uF" V 3850 5350 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 3938 5600 50  0001 C CNN
-F 3 "~" H 3900 5750 50  0001 C CNN
-	1    3900 5750
-	1    0    0    -1  
-$EndComp
-$Comp
-L power:GND #PWR0140
-U 1 1 6008C767
-P 3700 5900
-F 0 "#PWR0140" H 3700 5650 50  0001 C CNN
-F 1 "GND" H 3705 5727 50  0000 C CNN
-F 2 "" H 3700 5900 50  0001 C CNN
-F 3 "" H 3700 5900 50  0001 C CNN
-	1    3700 5900
-	1    0    0    -1  
-$EndComp
-Wire Wire Line
-	3500 5900 3700 5900
-Connection ~ 3700 5900
-Wire Wire Line
-	3700 5900 3900 5900
-Wire Wire Line
-	3500 5200 3500 5600
-Connection ~ 3500 5200
-Wire Wire Line
-	3500 5200 4500 5200
 Wire Wire Line
 	3900 4200 5600 4200
-Connection ~ 3900 4950
-Wire Wire Line
-	3900 4950 3900 5600
 Wire Wire Line
 	10650 7800 10450 7800
 Wire Wire Line
@@ -1468,17 +1289,6 @@ Wire Wire Line
 	13400 2050 13400 2350
 Text Notes 12850 2350 2    53   ~ 0
 AC/N\nHEAT FUSE\nHEAT FUSE\nAC/L
-$Comp
-L Device:C C12
-U 1 1 60067176
-P 2050 5350
-F 0 "C12" H 2000 5100 50  0000 L CNN
-F 1 "0.1uF" H 1950 5000 50  0000 L CNN
-F 2 "Resistor_SMD:R_0603_1608Metric" H 2088 5200 50  0001 C CNN
-F 3 "~" H 2050 5350 50  0001 C CNN
-	1    2050 5350
-	0    1    1    0   
-$EndComp
 Wire Wire Line
 	8650 3500 8250 3500
 Wire Wire Line
@@ -1616,4 +1426,194 @@ F 3 "http://www.formfactors.org/developer%5Cspecs%5Crev1_2_public.pdf" H 12100 8
 $EndComp
 NoConn ~ 11800 8000
 NoConn ~ 11800 8650
+Connection ~ 3900 4950
+Wire Wire Line
+	3500 5200 4500 5200
+Connection ~ 3500 5200
+Wire Wire Line
+	2150 4950 3900 4950
+Wire Wire Line
+	1950 5200 3500 5200
+Wire Wire Line
+	3900 4950 3900 5600
+Wire Wire Line
+	3500 5200 3500 5600
+Wire Wire Line
+	3700 5900 3900 5900
+Connection ~ 3700 5900
+Wire Wire Line
+	3500 5900 3700 5900
+$Comp
+L power:GND #PWR0140
+U 1 1 6008C767
+P 3700 5900
+F 0 "#PWR0140" H 3700 5650 50  0001 C CNN
+F 1 "GND" H 3705 5727 50  0000 C CNN
+F 2 "" H 3700 5900 50  0001 C CNN
+F 3 "" H 3700 5900 50  0001 C CNN
+	1    3700 5900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C9
+U 1 1 6008C75D
+P 3900 5750
+F 0 "C9" H 4015 5796 50  0000 L CNN
+F 1 "0.1uF" V 3850 5350 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 3938 5600 50  0001 C CNN
+F 3 "~" H 3900 5750 50  0001 C CNN
+	1    3900 5750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C8
+U 1 1 6008C4F7
+P 3500 5750
+F 0 "C8" H 3615 5796 50  0000 L CNN
+F 1 "0.1uF" V 3450 5350 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 3538 5600 50  0001 C CNN
+F 3 "~" H 3500 5750 50  0001 C CNN
+	1    3500 5750
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	4750 3850 4700 3850
+Wire Wire Line
+	4750 3900 4750 3850
+Wire Wire Line
+	5600 3900 4750 3900
+Wire Wire Line
+	6150 4850 5100 4850
+Wire Wire Line
+	5000 4500 5600 4500
+Wire Wire Line
+	4900 4400 5600 4400
+Wire Wire Line
+	5600 4000 4700 4000
+Text GLabel 4700 3850 0    79   Input ~ 0
+OZON1
+Text GLabel 4700 4000 0    79   Input ~ 0
+OZON2
+Wire Wire Line
+	5100 4850 5100 6400
+Wire Wire Line
+	5000 4500 5000 6150
+Wire Wire Line
+	4900 4400 4900 5500
+$Comp
+L Device:C C12
+U 1 1 60067176
+P 2050 5350
+F 0 "C12" H 2000 5100 50  0000 L CNN
+F 1 "0.1uF" H 1950 5000 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 2088 5200 50  0001 C CNN
+F 3 "~" H 2050 5350 50  0001 C CNN
+	1    2050 5350
+	0    1    1    0   
+$EndComp
+Wire Wire Line
+	3300 6150 2150 6150
+Wire Wire Line
+	3300 6450 3300 6150
+Wire Wire Line
+	2900 6400 5100 6400
+Wire Wire Line
+	2900 6450 2900 6400
+Wire Wire Line
+	3100 6750 3300 6750
+Wire Wire Line
+	2900 6750 3100 6750
+Connection ~ 3100 6750
+$Comp
+L power:GND #PWR0135
+U 1 1 600708E3
+P 3100 6750
+F 0 "#PWR0135" H 3100 6500 50  0001 C CNN
+F 1 "GND" H 3105 6577 50  0000 C CNN
+F 2 "" H 3100 6750 50  0001 C CNN
+F 3 "" H 3100 6750 50  0001 C CNN
+	1    3100 6750
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:C C7
+U 1 1 6006FD5B
+P 3300 6600
+F 0 "C7" H 3415 6646 50  0000 L CNN
+F 1 "0.1uF" V 3250 6200 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 3338 6450 50  0001 C CNN
+F 3 "~" H 3300 6600 50  0001 C CNN
+	1    3300 6600
+	1    0    0    -1  
+$EndComp
+Wire Wire Line
+	2200 5500 2150 5500
+Wire Wire Line
+	2200 5350 2200 5500
+Wire Wire Line
+	1900 5500 1950 5500
+Wire Wire Line
+	1900 5500 1900 5350
+$Comp
+L Device:C C5
+U 1 1 600510FA
+P 2900 6600
+F 0 "C5" H 3015 6646 50  0000 L CNN
+F 1 "0.1uF" V 2850 6200 50  0000 L CNN
+F 2 "Resistor_SMD:R_0603_1608Metric" H 2938 6450 50  0001 C CNN
+F 3 "~" H 2900 6600 50  0001 C CNN
+	1    2900 6600
+	1    0    0    -1  
+$EndComp
+Connection ~ 2200 5500
+Wire Wire Line
+	4900 5500 2200 5500
+Wire Wire Line
+	2150 5500 2150 5550
+Connection ~ 3300 6150
+Wire Wire Line
+	5000 6150 3300 6150
+Connection ~ 2900 6400
+Wire Wire Line
+	1950 6400 2900 6400
+Wire Wire Line
+	1950 6150 1950 6400
+Wire Wire Line
+	1950 5500 1950 5550
+Connection ~ 1900 5500
+Wire Wire Line
+	1650 5500 1900 5500
+$Comp
+L power:GND #PWR0102
+U 1 1 5FAF7810
+P 1650 5500
+F 0 "#PWR0102" H 1650 5250 50  0001 C CNN
+F 1 "GND" H 1655 5327 50  0000 C CNN
+F 2 "" H 1650 5500 50  0001 C CNN
+F 3 "" H 1650 5500 50  0001 C CNN
+	1    1650 5500
+	1    0    0    -1  
+$EndComp
+$Comp
+L power:GND #PWR0101
+U 1 1 5FAF7806
+P 2050 6150
+F 0 "#PWR0101" H 2050 5900 50  0001 C CNN
+F 1 "GND" H 2055 5977 50  0000 C CNN
+F 2 "" H 2050 6150 50  0001 C CNN
+F 3 "" H 2050 6150 50  0001 C CNN
+	1    2050 6150
+	1    0    0    -1  
+$EndComp
+$Comp
+L Device:Rotary_Encoder_Switch SW2
+U 1 1 5FAF760A
+P 2050 5850
+F 0 "SW2" V 2096 5620 50  0000 R CNN
+F 1 "Rotary_Encoder_Switch" V 2005 5620 50  0000 R CNN
+F 2 "Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm" H 1900 6010 50  0001 C CNN
+F 3 "~" H 2050 6110 50  0001 C CNN
+	1    2050 5850
+	0    -1   -1   0   
+$EndComp
 $EndSCHEMATC
