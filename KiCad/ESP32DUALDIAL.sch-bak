@@ -745,28 +745,6 @@ NoConn ~ 6700 4750
 NoConn ~ 6800 4750
 NoConn ~ 7450 3800
 $Comp
-L Connector:Conn_01x02_Male J3
-U 1 1 5FD53D91
-P 11800 7800
-F 0 "J3" H 11772 7774 50  0000 R CNN
-F 1 "FAN" H 11772 7683 50  0000 R CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" H 11800 7800 50  0001 C CNN
-F 3 "~" H 11800 7800 50  0001 C CNN
-	1    11800 7800
-	-1   0    0    -1  
-$EndComp
-$Comp
-L Connector:Conn_01x02_Male J4
-U 1 1 5FD5B850
-P 11800 8050
-F 0 "J4" H 11772 8024 50  0000 R CNN
-F 1 "FAN" H 11772 7933 50  0000 R CNN
-F 2 "Connector_PinSocket_2.54mm:PinSocket_1x02_P2.54mm_Vertical" H 11800 8050 50  0001 C CNN
-F 3 "~" H 11800 8050 50  0001 C CNN
-	1    11800 8050
-	-1   0    0    -1  
-$EndComp
-$Comp
 L power:+12V #PWR0131
 U 1 1 5FD7ABBD
 P 11250 3050
@@ -847,7 +825,7 @@ Wire Wire Line
 	9950 8350 9950 7850
 Wire Wire Line
 	9650 7850 9650 8350
-Text Notes 10900 8550 0    47   ~ 0
+Text Notes 10750 8650 0    47   ~ 0
 2SK2412 To220 GDS
 Connection ~ 14000 4150
 Connection ~ 14000 4700
@@ -1376,22 +1354,8 @@ $EndComp
 Wire Wire Line
 	10650 7800 11300 7800
 Wire Wire Line
-	11550 8050 11550 7800
-Wire Wire Line
-	11550 8050 11600 8050
-Connection ~ 11550 7800
-Wire Wire Line
-	11550 7800 11600 7800
-Wire Wire Line
-	11500 7900 11500 8150
-Wire Wire Line
 	10700 8150 11300 8150
-Wire Wire Line
-	11500 7900 11600 7900
-Connection ~ 11500 8150
-Wire Wire Line
-	11500 8150 11600 8150
-Text Notes 12000 8000 0    79   ~ 0
+Text Notes 12800 8100 0    79   ~ 0
 FAN OUTPUT
 Text Notes 9150 8150 0    79   ~ 0
 GPIO
@@ -1412,8 +1376,6 @@ Wire Wire Line
 Wire Wire Line
 	11300 7850 11300 7800
 Connection ~ 11300 7800
-Wire Wire Line
-	11300 7800 11550 7800
 $Comp
 L Device:C C10
 U 1 1 601B7266
@@ -1608,4 +1570,50 @@ Wire Wire Line
 Wire Wire Line
 	6200 7800 6300 7800
 NoConn ~ 5650 8200
+NoConn ~ 11800 7800
+NoConn ~ 11800 8450
+Wire Wire Line
+	11600 7800 11600 7600
+Wire Wire Line
+	11600 7600 12100 7600
+Wire Wire Line
+	11300 7800 11600 7800
+Wire Wire Line
+	11600 7800 11600 8250
+Wire Wire Line
+	11600 8250 12100 8250
+Connection ~ 11600 7800
+Wire Wire Line
+	12100 8100 11500 8100
+Wire Wire Line
+	11500 8100 11500 8150
+Wire Wire Line
+	12100 8750 11500 8750
+Wire Wire Line
+	11500 8750 11500 8150
+Connection ~ 11500 8150
+$Comp
+L Motor:Fan_CPU_4pin M1
+U 1 1 6038A75C
+P 12100 7900
+F 0 "M1" H 12258 7996 50  0000 L CNN
+F 1 "Fan_CPU_4pin" H 12258 7905 50  0000 L CNN
+F 2 "Connector:FanPinHeader_1x03_P2.54mm_Vertical" H 12100 7910 50  0001 C CNN
+F 3 "http://www.formfactors.org/developer%5Cspecs%5Crev1_2_public.pdf" H 12100 7910 50  0001 C CNN
+	1    12100 7900
+	1    0    0    -1  
+$EndComp
+$Comp
+L Motor:Fan_CPU_4pin M2
+U 1 1 6038BD6B
+P 12100 8550
+F 0 "M2" H 12258 8646 50  0000 L CNN
+F 1 "Fan_CPU_4pin" H 12258 8555 50  0000 L CNN
+F 2 "Connector:FanPinHeader_1x03_P2.54mm_Vertical" H 12100 8560 50  0001 C CNN
+F 3 "http://www.formfactors.org/developer%5Cspecs%5Crev1_2_public.pdf" H 12100 8560 50  0001 C CNN
+	1    12100 8550
+	1    0    0    -1  
+$EndComp
+NoConn ~ 11800 8000
+NoConn ~ 11800 8650
 $EndSCHEMATC
