@@ -1,4 +1,4 @@
-19329906267343751
+19333166971629751
 Battery
 BatteryHolder_Bulgin_BX0036_1xC
 Bulgin Battery Holder, BX0036, Battery Type C (https://www.bulgin.com/products/pub/media/bulgin/data/Battery_holders.pdf)
@@ -83216,6 +83216,13 @@ Bridge_B1005S_SERIES
 4
 4
 library
+Buzzer_7.6_5.0
+Generic Buzzer, D12mm height 9.5mm with RM7.6mm
+buzzer
+0
+3
+2
+library
 CD54PowerInductorSMD
 CD54PowerInductorSMD
 CD54PowerInductorSMD
@@ -83683,6 +83690,13 @@ SSR_SHARP_S108T02
 
 0
 4
+4
+library
+SSR_SHARP_S108T02_NNC_NNG1D-25mm
+SSR_SHARP_S108T02_NNC_NNG1D-25mm
+SSR_SHARP_S108T02_NNC_NNG1D-25mm
+0
+5
 4
 library
 STM32F103C8T6ARMMiniSystemDevboard_RobotDyn
