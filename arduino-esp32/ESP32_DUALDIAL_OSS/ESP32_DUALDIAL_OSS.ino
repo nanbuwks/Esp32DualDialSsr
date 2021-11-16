@@ -141,6 +141,12 @@ void IRAM_ATTR onTimer() {  // each 20msec
   //  encoder1.tick(); // just call tick() to check the state.
   timercounter++;
   if ( motionOZONE == "ON" ) {
+
+    if ( 2 <  Ozonelevel ){
+       runFAN();
+    } else {
+       stopFAN();
+    }
     if ( ozonePercent[Ozonelevel] == timercounter % 100 )  // 100 means 20msec * 100 = 2 sec.
       digitalWrite(OZONE0_PIN, LOW);
     if ( 0                        == timercounter % 100 )
@@ -1096,6 +1102,10 @@ void runFAN() {
   digitalWrite(FAN_PIN, HIGH);
   motionFAN = "ON";
 }
+void stopFAN() {
+  digitalWrite(FAN_PIN, LOW);
+  motionFAN = "OFF";
+}
 void runOZONE() {
   motionOZONE = "ON";
 }
@@ -1312,6 +1322,7 @@ void stop() {
     Serial.printf("error EEPROM\n");
 
   stopPUMP();
+  stopFAN();
 }
 
 void eeprom_write() {
@@ -2500,6 +2511,7 @@ void setup() {
   if ( OZONELIFELIMIT < log_ozone ) {
     caution();
   }
+  stopFAN();
 }
 
 void loop()
