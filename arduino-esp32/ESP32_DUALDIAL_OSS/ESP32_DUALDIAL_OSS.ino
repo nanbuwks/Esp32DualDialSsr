@@ -515,9 +515,16 @@ int maintenanceSelect1() {
         case 4:
           // ozone
           log_ozone10 = 0;
+          log_OZONE0=0;
+          log_OZONE1=0;
+          log_OZONE2=0;
           Serial.printf("log_ozone:1:%d", log_ozone);
           eeprom_write();
           Serial.printf("log_ozone:2:%d", log_ozone);
+          Serial.printf("log_OZONE0:%d", log_OZONE0);
+          Serial.printf("log_OZONE1:%d", log_OZONE1);
+          Serial.printf("log_OZONE2:%d", log_OZONE2);
+
           md111.text = mkTimeString(log_ozone);
           labelText(md111);
           break;
@@ -1339,7 +1346,7 @@ void eeprom_write() {
   detachInterrupt(ENCODER2_B_PIN);   // rotary_encoder
   detachInterrupt(ENCODER2_SWITCH_PIN);  // rotary_encoder push switch
 
-  int data[10];
+  int data[13];
   log_ozone =  log_ozone10 / 10;
   data[0]  = maintenance_Count;
   data[1] = oneshot_Ozonelevel;
@@ -1355,8 +1362,12 @@ void eeprom_write() {
   data[11] = log_OZONE1;
   data[12] = log_OZONE2;
   int n = 0;
-  for (int i = 0; i < 10; i++) {
+  Serial.println("EEPROM WRITE");
+  for (int i = 0; i < 13; i++) {
     EEPROM.put(n, data[i]);
+    Serial.print(i);
+    Serial.print(":");
+    Serial.println(data[i]);
     n += 4; // 4バイト毎
   }
   delay(100);
@@ -1379,8 +1390,8 @@ void eeprom_write() {
 int eeprom_verify() {
   int chkEEPROMerrorcount = 0;
   int n = 0;
-  int data[10];
-  for (int i = 0; i < 10; i++) {
+  int data[13];
+  for (int i = 0; i < 13; i++) {
     EEPROM.get(n, data[i]); // EEPROMより読み込み
     n += 4; // 4バイト毎
   }
@@ -1440,8 +1451,8 @@ int eeprom_verify() {
 }
 void eeprom_read() {
   int n = 0;
-  int data[10];
-  for (int i = 0; i < 10; i++) {
+  int data[13];
+  for (int i = 0; i < 13; i++) {
     EEPROM.get(n, data[i]); // EEPROMより読み込み
     n += 4; // 4バイト毎
   }
@@ -2224,7 +2235,7 @@ void maintenancemode1() {
   labelText(m112);
   labelText(m113);
   md110.text = mkTimeString(log_pump);
-  md111.text = String(mkTimeString(log_OZONE0)+mkTimeString(log_OZONE1)+mkTimeString(log_OZONE2));
+  md111.text = String(mkTimeString(log_OZONE0)+"////"+mkTimeString(log_OZONE1)+"////"+mkTimeString(log_OZONE2));
   md112.text = mkTimeString(log_fan);
   char buf[20];
   sprintf(buf, "%d", log_oncount);
