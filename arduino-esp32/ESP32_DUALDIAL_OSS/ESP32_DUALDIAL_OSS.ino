@@ -2,7 +2,7 @@
 //#include <SPIFFS.h>
 //#include <FS.h>
 #include <EEPROM.h>
-#define VERSION "Ver1.0"
+#define VERSION "Ver1.1"
 #include "commercial.h"
 struct LGFX_Config
 {
@@ -93,7 +93,7 @@ int timeSeconds[WAITTIMEMAX + 1] = {
 
 
 // EEPROM paramater
-int maintenance_Count = 0;
+int maintenance_Count = 1;
 int oneshot_Ozonelevel = 2;
 int oneshot_endtime = 1;
 int program_Ozonelevel = 1;
@@ -104,6 +104,9 @@ int log_ozone = 0;
 int log_ozone10; // log_ozoneの10倍
 int log_fan = 0;
 int log_oncount = 0;
+int log_OZONE0 = 0;
+int log_OZONE1 = 0;
+int log_OZONE2 = 0;
 
 
 // run time using
@@ -1336,6 +1339,9 @@ void eeprom_write() {
   data[7] = log_ozone;
   data[8] = log_fan;
   data[9] = log_oncount;
+  data[10] = log_OZONE0;
+  data[11] = log_OZONE1;
+  data[12] = log_OZONE2;
   int n = 0;
   for (int i = 0; i < 10; i++) {
     EEPROM.put(n, data[i]);
@@ -1406,6 +1412,18 @@ int eeprom_verify() {
     Serial.printf("error 1 as %d\n", data[9]);
     chkEEPROMerrorcount++;
   }
+  if ( log_OZONE0 != data[10]) {
+    Serial.printf("error 1 as %d\n", data[10]);
+    chkEEPROMerrorcount++;
+  }
+  if ( log_OZONE1 != data[11]) {
+    Serial.printf("error 1 as %d\n", data[11]);
+    chkEEPROMerrorcount++;
+  }
+  if ( log_OZONE2 != data[12]) {
+    Serial.printf("error 1 as %d\n", data[12]);
+    chkEEPROMerrorcount++;
+  }
   return ( chkEEPROMerrorcount++);
 }
 void eeprom_read() {
@@ -1415,7 +1433,19 @@ void eeprom_read() {
     EEPROM.get(n, data[i]); // EEPROMより読み込み
     n += 4; // 4バイト毎
   }
-  if ( -1 != data[0] ) maintenance_Count = data[0];
+  if ( -1 != data[0] ) {
+    if ( 0 == data[0] ) {  // eeprom data version up
+      log_OZONE0 = data[7] / 3;
+      log_OZONE1 = data[7] / 3;
+      log_OZONE2 = data[7] / 3;
+    } else {
+      maintenance_Count = data[0];
+      if ( -1 != data[10] ) log_OZONE0 = data[10];
+      if ( -1 != data[11] ) log_OZONE1 = data[11];
+      if ( -1 != data[12] ) log_OZONE2 = data[12];
+
+    }
+  }
   if ( -1 != data[1] ) oneshot_Ozonelevel = data[1];
   if ( -1 != data[2] ) oneshot_endtime = data[2];
   if ( -1 != data[3] ) program_Ozonelevel = data[3];
@@ -1423,7 +1453,7 @@ void eeprom_read() {
   if ( -1 != data[5] ) program_endtime = data[5];
   if ( -1 != data[6] ) log_pump = data[6];
   if ( -1 != data[7] ) log_ozone = data[7];
-  if ( -1 != data[8] )  log_fan = data[8];
+  if ( -1 != data[8] ) log_fan = data[8];
   if ( -1 != data[9] ) log_oncount = data[9];
   if ( -1 == data[0] )  Serial.println("EEPROM seems first use!");
   log_ozone10 = log_ozone * 10;
@@ -2182,7 +2212,7 @@ void maintenancemode1() {
   labelText(m112);
   labelText(m113);
   md110.text = mkTimeString(log_pump);
-  md111.text = mkTimeString(log_ozone);
+  md111.text = String(mkTimeString(log_OZONE0)+mkTimeString(log_OZONE1)+mkTimeString(log_OZONE2));
   md112.text = mkTimeString(log_fan);
   char buf[20];
   sprintf(buf, "%d", log_oncount);
@@ -2405,7 +2435,7 @@ void setup() {
     SPIFFS.end();
 
   */
-  EEPROM.begin(40); // int 4 byte x 10
+  EEPROM.begin(52); // int 4 byte x 13
   eeprom_read();
 
   Serial.print("mainetance_Count:");
@@ -2428,6 +2458,12 @@ void setup() {
   Serial.println(log_fan);
   Serial.print("log_oncount:");
   Serial.println(log_oncount);
+  Serial.print("log_OZONE0:");
+  Serial.println(log_OZONE0);
+  Serial.print("log_OZONE1:");
+  Serial.println(log_OZONE1);
+  Serial.print("log_OZONE2:");
+  Serial.println(log_OZONE2);
 
   //timerAlarmDisable(timer);    // stop alarm
   //timerDetachInterrupt(timer);  // detach interrupt
