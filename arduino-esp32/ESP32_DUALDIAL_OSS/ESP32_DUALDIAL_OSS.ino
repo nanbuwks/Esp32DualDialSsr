@@ -905,20 +905,21 @@ int caution() {            // 警告
   tft.setTextColor(TFT_WHITE);
   tft.setFont(&myFont40);
   tft.setCursor(114, 30);
-  tft.println("注 意");
+  tft.println(cautiontxt1);
   tft.setTextColor(TFT_BLACK);
   tft.setFont(&lgfxJapanGothicP_16);
   tft.setCursor(23, 91);
-  tft.println("稼働時間が設計使用時間を超えました。");
+  tft.println(cautiontxt2);
   tft.setCursor(23, 111);
-  tft.println("オゾンユニットが消耗しています。");
+  tft.println(cautiontxt3);
   tft.setCursor(23, 131);
-  tft.println("メンテナンスを依頼してください。");
+  tft.println(cautiontxt4);
   tft.setFont(&lgfxJapanGothicP_16);
   tft.setCursor(68, 185);
-  tft.println("【お問合せ先】 株式会社レボル");
+  tft.println(cautiontxt5);
   tft.setCursor(184, 208);
-  tft.println("048-254-0070");
+  tft.println(cautiontxt6);
+  
   while (1) {
     if ( 1 == encoder1Pushed || 1 == encoder2Pushed )
     { // exit
