@@ -29,11 +29,11 @@ static lgfx::Panel_ILI9341 panel;
 #define TFT_DC 17
 #define TFT_CS 5
 #define PUMP_PIN 27
-#define OZONE0_PIN 26
-#define OZONE1_PIN 32
-#define OZONE2_PIN 33
+
 #define FAN_PIN 22
 #define BEEP_PIN 2
+
+int  OZONE_PIN[3] = { 26,32,33 };
 
 //  Switch DEBUG
 /*
@@ -104,9 +104,11 @@ int log_ozone = 0;
 int log_ozone10; // log_ozoneの10倍
 int log_fan = 0;
 int log_oncount = 0;
-int log_OZONE0 = 0;
-int log_OZONE1 = 0;
-int log_OZONE2 = 0;
+int log_OZONE[3] = {0,0,0};
+
+// ozone チューブ利用優先順位 (利用時間短いものから優先使用)
+int OZONEorder[3] = {0,1,2};
+
 
 
 // run time using
@@ -148,17 +150,17 @@ void IRAM_ATTR onTimer() {  // each 20msec
        stopFAN();
     }
     if ( ozonePercent[Ozonelevel] == timercounter % 100 )  // 100 means 20msec * 100 = 2 sec.
-      digitalWrite(OZONE0_PIN, LOW);
+      digitalWrite(OZONE_PIN[0], LOW);
     if ( 0                        == timercounter % 100 )
-      digitalWrite(OZONE0_PIN, HIGH);
+      digitalWrite(OZONE_PIN[0], HIGH);
     if ( ozonePercent[Ozonelevel] == ( timercounter + 33 ) % 100 )
-      digitalWrite(OZONE1_PIN, LOW);
+      digitalWrite(OZONE_PIN[1], LOW);
     if ( 0                        == ( timercounter + 33 ) % 100 )
-      digitalWrite(OZONE1_PIN, HIGH);
+      digitalWrite(OZONE_PIN[1], HIGH);
     if ( ozonePercent[Ozonelevel] == ( timercounter + 66 ) % 100 )
-      digitalWrite(OZONE2_PIN, LOW);
+      digitalWrite(OZONE_PIN[2], LOW);
     if ( 0                        == ( timercounter + 66 ) % 100 )
-      digitalWrite(OZONE2_PIN, HIGH);
+      digitalWrite(OZONE_PIN[2], HIGH);
     if ( 0 == timercounter % 500  ) // each 10 sec.
       log_ozone10 = log_ozone10 + ozonePercent[Ozonelevel];
   }
@@ -479,11 +481,11 @@ int maintenanceSelect1() {
           if (  maintenanceLabels1[selected].text == "OFF" ) {
             maintenanceLabels1[selected].text = "ON";
             selectLabelText(maintenanceLabels1[selected]);
-            digitalWrite(OZONE0_PIN, HIGH);
+            digitalWrite(OZONE_PIN[0], HIGH);
           } else {
             maintenanceLabels1[selected].text = "OFF";
             selectLabelText(maintenanceLabels1[selected]);
-            digitalWrite(OZONE0_PIN, LOW);
+            digitalWrite(OZONE_PIN[0], LOW);
           }
           break;
         case 2:
@@ -491,11 +493,11 @@ int maintenanceSelect1() {
           if (  maintenanceLabels1[selected].text == "OFF" ) {
             maintenanceLabels1[selected].text = "ON";
             selectLabelText(maintenanceLabels1[selected]);
-            digitalWrite(OZONE1_PIN, HIGH);
+            digitalWrite(OZONE_PIN[1], HIGH);
           } else {
             maintenanceLabels1[selected].text = "OFF";
             selectLabelText(maintenanceLabels1[selected]);
-            digitalWrite(OZONE1_PIN, LOW);
+            digitalWrite(OZONE_PIN[1], LOW);
           }
           break;
 
@@ -504,28 +506,27 @@ int maintenanceSelect1() {
           if (  maintenanceLabels1[selected].text == "OFF" ) {
             maintenanceLabels1[selected].text = "ON";
             selectLabelText(maintenanceLabels1[selected]);
-            digitalWrite(OZONE2_PIN, HIGH);
+            digitalWrite(OZONE_PIN[2], HIGH);
           } else {
             maintenanceLabels1[selected].text = "OFF";
             selectLabelText(maintenanceLabels1[selected]);
-            digitalWrite(OZONE2_PIN, LOW);
+            digitalWrite(OZONE_PIN[2], LOW);
           }
           break;
 
         case 4:
           // ozone
           log_ozone10 = 0;
-          log_OZONE0=0;
-          log_OZONE1=0;
-          log_OZONE2=0;
+          log_OZONE[0]=0;
+          log_OZONE[1]=0;
+          log_OZONE[2]=0;
           Serial.printf("log_ozone:1:%d", log_ozone);
           eeprom_write();
           Serial.printf("log_ozone:2:%d", log_ozone);
-          Serial.printf("log_OZONE0:%d", log_OZONE0);
-          Serial.printf("log_OZONE1:%d", log_OZONE1);
-          Serial.printf("log_OZONE2:%d", log_OZONE2);
-
-          md111.text = mkTimeString(log_ozone);
+          Serial.printf("log_OZONE0:%d", log_OZONE[0]);
+          Serial.printf("log_OZONE1:%d", log_OZONE[1]);
+          Serial.printf("log_OZONE2:%d", log_OZONE[2]);
+          md111.text = String(mkTimeString(log_OZONE[0])+"    "+mkTimeString(log_OZONE[1])+"    "+mkTimeString(log_OZONE[2]));
           labelText(md111);
           break;
 
@@ -544,9 +545,9 @@ int maintenanceSelect1() {
 }
 int maintenanceSelect2() {
   digitalWrite(PUMP_PIN, LOW);
-  digitalWrite(OZONE0_PIN, LOW);
-  digitalWrite(OZONE1_PIN, LOW);
-  digitalWrite(OZONE2_PIN, LOW);
+  digitalWrite(OZONE_PIN[0], LOW);
+  digitalWrite(OZONE_PIN[1], LOW);
+  digitalWrite(OZONE_PIN[2], LOW);
   static int timeminutes = 30;
   encoder1.setPosition(0);
   encoder2.setPosition(0);
@@ -588,21 +589,21 @@ int maintenanceSelect2() {
           // ozone0 & pump
           maintenanceLabels2[selected].text = "ON";
           selectLabelText(maintenanceLabels2[selected]);
-          digitalWrite(OZONE0_PIN, HIGH);
+          digitalWrite(OZONE_PIN[0], HIGH);
           break;
         case 2:
           // ozone1 & pump
           maintenanceLabels2[selected].text = "ON";
           maintenanceLabels2[1].text = "OFF";
-          digitalWrite(OZONE1_PIN, HIGH);
-          digitalWrite(OZONE0_PIN, LOW);
+          digitalWrite(OZONE_PIN[1], HIGH);
+          digitalWrite(OZONE_PIN[0], LOW);
           break;
         case 3:
           // ozone2 & pump
           maintenanceLabels2[selected].text = "ON";
           maintenanceLabels2[2].text = "OFF";
-          digitalWrite(OZONE2_PIN, HIGH);
-          digitalWrite(OZONE1_PIN, LOW);
+          digitalWrite(OZONE_PIN[2], HIGH);
+          digitalWrite(OZONE_PIN[1], LOW);
           break;
         case 4:
           // timer
@@ -610,7 +611,7 @@ int maintenanceSelect2() {
           maintenanceLabels2[0].text = "OFF";
           maintenanceLabels2[3].text = "OFF";
           digitalWrite(PUMP_PIN, LOW);
-          digitalWrite(OZONE2_PIN, LOW);
+          digitalWrite(OZONE_PIN[2], LOW);
           if ( 0 == buzzerflag ) {
             mode = "run";
 #ifdef DEBUG
@@ -1119,9 +1120,9 @@ void runOZONE() {
 }
 void stopOZONE() {
   motionOZONE = "OFF";
-  digitalWrite(OZONE0_PIN, LOW);
-  digitalWrite(OZONE1_PIN, LOW);
-  digitalWrite(OZONE2_PIN, LOW);
+  digitalWrite(OZONE_PIN[0], LOW);
+  digitalWrite(OZONE_PIN[1], LOW);
+  digitalWrite(OZONE_PIN[2], LOW);
 }
 int verifySPIFFSData( int data1, int data2 , int number ) {
   if ( data1 != data2 )
@@ -1358,9 +1359,9 @@ void eeprom_write() {
   data[7] = log_ozone;
   data[8] = log_fan;
   data[9] = log_oncount;
-  data[10] = log_OZONE0;
-  data[11] = log_OZONE1;
-  data[12] = log_OZONE2;
+  data[10] = log_OZONE[0];
+  data[11] = log_OZONE[1];
+  data[12] = log_OZONE[2];
   int n = 0;
   Serial.println("EEPROM WRITE");
   for (int i = 0; i < 13; i++) {
@@ -1435,15 +1436,15 @@ int eeprom_verify() {
     Serial.printf("error 1 as %d\n", data[9]);
     chkEEPROMerrorcount++;
   }
-  if ( log_OZONE0 != data[10]) {
+  if ( log_OZONE[0] != data[10]) {
     Serial.printf("error 1 as %d\n", data[10]);
     chkEEPROMerrorcount++;
   }
-  if ( log_OZONE1 != data[11]) {
+  if ( log_OZONE[1] != data[11]) {
     Serial.printf("error 1 as %d\n", data[11]);
     chkEEPROMerrorcount++;
   }
-  if ( log_OZONE2 != data[12]) {
+  if ( log_OZONE[2] != data[12]) {
     Serial.printf("error 1 as %d\n", data[12]);
     chkEEPROMerrorcount++;
   }
@@ -1458,14 +1459,14 @@ void eeprom_read() {
   }
   if ( -1 != data[0] ) {
     if ( 0 == data[0] ) {  // eeprom data version up
-      log_OZONE0 = data[7] / 3;
-      log_OZONE1 = data[7] / 3;
-      log_OZONE2 = data[7] / 3;
+      log_OZONE[0] = data[7] / 3;
+      log_OZONE[1] = data[7] / 3;
+      log_OZONE[2] = data[7] / 3;
     } else {
       maintenance_Count = data[0];
-      if ( -1 != data[10] ) log_OZONE0 = data[10];
-      if ( -1 != data[11] ) log_OZONE1 = data[11];
-      if ( -1 != data[12] ) log_OZONE2 = data[12];
+      if ( -1 != data[10] ) log_OZONE[0] = data[10];
+      if ( -1 != data[11] ) log_OZONE[1] = data[11];
+      if ( -1 != data[12] ) log_OZONE[2] = data[12];
 
     }
   }
@@ -2235,7 +2236,7 @@ void maintenancemode1() {
   labelText(m112);
   labelText(m113);
   md110.text = mkTimeString(log_pump);
-  md111.text = String(mkTimeString(log_OZONE0)+"////"+mkTimeString(log_OZONE1)+"////"+mkTimeString(log_OZONE2));
+  md111.text = String(mkTimeString(log_OZONE[0])+"    "+mkTimeString(log_OZONE[1])+"    "+mkTimeString(log_OZONE[2]));
   md112.text = mkTimeString(log_fan);
   char buf[20];
   sprintf(buf, "%d", log_oncount);
@@ -2352,15 +2353,15 @@ void setup() {
   pinMode(ENCODER1_SWITCH_PIN, INPUT_PULLUP);
   pinMode(ENCODER2_SWITCH_PIN, INPUT_PULLUP);
   pinMode(PUMP_PIN, OUTPUT);
-  pinMode(OZONE0_PIN, OUTPUT);
-  pinMode(OZONE1_PIN, OUTPUT);
-  pinMode(OZONE2_PIN, OUTPUT);
+  pinMode(OZONE_PIN[0], OUTPUT);
+  pinMode(OZONE_PIN[1], OUTPUT);
+  pinMode(OZONE_PIN[2], OUTPUT);
   pinMode(FAN_PIN, OUTPUT);
   pinMode(BEEP_PIN, OUTPUT);
   digitalWrite(PUMP_PIN, 0);
-  digitalWrite(OZONE0_PIN, 0);
-  digitalWrite(OZONE1_PIN, 0);
-  digitalWrite(OZONE2_PIN, 0);
+  digitalWrite(OZONE_PIN[0], 0);
+  digitalWrite(OZONE_PIN[1], 0);
+  digitalWrite(OZONE_PIN[2], 0);
   digitalWrite(FAN_PIN, 0);
   digitalWrite(BEEP_PIN, 0);
 
@@ -2482,11 +2483,11 @@ void setup() {
   Serial.print("log_oncount:");
   Serial.println(log_oncount);
   Serial.print("log_OZONE0:");
-  Serial.println(log_OZONE0);
+  Serial.println(log_OZONE[0]);
   Serial.print("log_OZONE1:");
-  Serial.println(log_OZONE1);
+  Serial.println(log_OZONE[1]);
   Serial.print("log_OZONE2:");
-  Serial.println(log_OZONE2);
+  Serial.println(log_OZONE[2]);
 
   //timerAlarmDisable(timer);    // stop alarm
   //timerDetachInterrupt(timer);  // detach interrupt
