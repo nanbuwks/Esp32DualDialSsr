@@ -1425,7 +1425,7 @@ void eeprom_read() {
   if ( -1 != data[7] ) log_ozone = data[7];
   if ( -1 != data[8] )  log_fan = data[8];
   if ( -1 != data[9] ) log_oncount = data[9];
-  if ( -1 != data[0] )  Serial.println("EEPROM seems first use!");
+  if ( -1 == data[0] )  Serial.println("EEPROM seems first use!");
   log_ozone10 = log_ozone * 10;
 }
 
