@@ -33,7 +33,11 @@ static lgfx::Panel_ILI9341 panel;
 #define FAN_PIN 22
 #define BEEP_PIN 2
 
+// ozone チューブコントロールGPIO番号
 int  OZONE_PIN[3] = { 26,32,33 };
+// ozone チューブ利用優先順位 (利用時間短いものから優先使用)
+int OZONEorder[3] = {0,1,2};
+
 
 //  Switch DEBUG
 /*
@@ -104,11 +108,7 @@ int log_ozone = 0;
 int log_ozone10; // log_ozoneの10倍
 int log_fan = 0;
 int log_oncount = 0;
-int log_OZONE[3] = {0,0,0};
-
-// ozone チューブ利用優先順位 (利用時間短いものから優先使用)
-int OZONEorder[3] = {0,1,2};
-
+int log_OZONE10[3] = {0,0,0};  // 0.1秒単位の稼働時間
 
 
 // run time using
@@ -149,6 +149,7 @@ void IRAM_ATTR onTimer() {  // each 20msec
     } else {
        stopFAN();
     }
+    /*
     if ( ozonePercent[Ozonelevel] == timercounter % 100 )  // 100 means 20msec * 100 = 2 sec.
       digitalWrite(OZONE_PIN[0], LOW);
     if ( 0                        == timercounter % 100 )
@@ -161,6 +162,59 @@ void IRAM_ATTR onTimer() {  // each 20msec
       digitalWrite(OZONE_PIN[2], LOW);
     if ( 0                        == ( timercounter + 66 ) % 100 )
       digitalWrite(OZONE_PIN[2], HIGH);
+    */
+    if ( 0 == Ozonelevel ) {
+      digitalWrite(OZONE_PIN[OZONEorder[1]], LOW);
+      digitalWrite(OZONE_PIN[OZONEorder[2]], LOW);
+      if (  0 == timercounter % 100 ) // 100 means 20msec * 100 = 2 sec. 
+            digitalWrite(OZONE_PIN[OZONEorder[0]], HIGH);
+      if ( 33 == timercounter % 100 ) // 33 means duty 33% 
+            digitalWrite(OZONE_PIN[OZONEorder[0]], LOW);
+      if ( 0 == timercounter % 500  ) // each 10 sec.
+        log_OZONE10[OZONEorder[0]] +=  33;  // 3.3秒を追加記録
+    }
+    if ( 1 == Ozonelevel ) {
+      digitalWrite(OZONE_PIN[OZONEorder[1]], LOW);
+      digitalWrite(OZONE_PIN[OZONEorder[2]], LOW);
+      if (  0 == timercounter % 100 ) // 100 means 20msec * 100 = 2 sec. 
+            digitalWrite(OZONE_PIN[OZONEorder[0]], HIGH);
+      if ( 66 == timercounter % 100 ) // 33 means duty 33% 
+            digitalWrite(OZONE_PIN[OZONEorder[0]], LOW);
+      if ( 0 == timercounter % 500  ) // each 10 sec.
+        log_OZONE10[OZONEorder[0]] +=  66;  // 6.6秒を追加記録
+    }
+    if ( 2 == Ozonelevel ) {
+      digitalWrite(OZONE_PIN[OZONEorder[1]], LOW);
+      digitalWrite(OZONE_PIN[OZONEorder[2]], LOW);
+      digitalWrite(OZONE_PIN[OZONEorder[0]], HIGH);
+      if ( 0 == timercounter % 500  ) // each 10 sec.
+        log_OZONE10[OZONEorder[0]] +=  100;  // 10秒を追加記録
+    }
+    if ( 3 == Ozonelevel ) {
+      digitalWrite(OZONE_PIN[OZONEorder[1]], LOW);
+      digitalWrite(OZONE_PIN[OZONEorder[2]], LOW);
+      digitalWrite(OZONE_PIN[OZONEorder[0]], HIGH);
+      if ( 0 == timercounter % 500  ) // each 10 sec.
+        log_OZONE10[OZONEorder[0]] +=  100;  // 10秒を追加記録
+    }
+    if ( 4 == Ozonelevel ) {
+      digitalWrite(OZONE_PIN[OZONEorder[1]], HIGH);
+      digitalWrite(OZONE_PIN[OZONEorder[0]], HIGH);
+      digitalWrite(OZONE_PIN[OZONEorder[2]], LOW);
+      if ( 0 == timercounter % 500  ) // each 10 sec.
+        log_OZONE10[OZONEorder[0]] +=  100;  // 10秒を追加記録
+        log_OZONE10[OZONEorder[1]] +=  100;  // 10秒を追加記録
+    }
+    if ( 5 == Ozonelevel ) {
+      digitalWrite(OZONE_PIN[OZONEorder[1]], HIGH);
+      digitalWrite(OZONE_PIN[OZONEorder[0]], HIGH);
+      digitalWrite(OZONE_PIN[OZONEorder[2]], HIGH);
+      if ( 0 == timercounter % 500  ) // each 10 sec.
+        log_OZONE10[OZONEorder[0]] +=  100;  // 10秒を追加記録
+        log_OZONE10[OZONEorder[1]] +=  100;  // 10秒を追加記録
+        log_OZONE10[OZONEorder[2]] +=  100;  // 10秒を追加記録
+    }
+
     if ( 0 == timercounter % 500  ) // each 10 sec.
       log_ozone10 = log_ozone10 + ozonePercent[Ozonelevel];
   }
@@ -517,16 +571,16 @@ int maintenanceSelect1() {
         case 4:
           // ozone
           log_ozone10 = 0;
-          log_OZONE[0]=0;
-          log_OZONE[1]=0;
-          log_OZONE[2]=0;
+          log_OZONE10[0]=0;
+          log_OZONE10[1]=0;
+          log_OZONE10[2]=0;
           Serial.printf("log_ozone:1:%d", log_ozone);
           eeprom_write();
           Serial.printf("log_ozone:2:%d", log_ozone);
-          Serial.printf("log_OZONE0:%d", log_OZONE[0]);
-          Serial.printf("log_OZONE1:%d", log_OZONE[1]);
-          Serial.printf("log_OZONE2:%d", log_OZONE[2]);
-          md111.text = String(mkTimeString(log_OZONE[0])+"    "+mkTimeString(log_OZONE[1])+"    "+mkTimeString(log_OZONE[2]));
+          Serial.printf("log_OZONE10_0:%d", log_OZONE10[0]);
+          Serial.printf("log_OZONE10_1:%d", log_OZONE10[1]);
+          Serial.printf("log_OZONE10_2:%d", log_OZONE10[2]);
+          md111.text = String(mkTimeString(log_OZONE10[0]/10)+"    "+mkTimeString(log_OZONE10[1]/10)+"    "+mkTimeString(log_OZONE10[2]/10));
           labelText(md111);
           break;
 
@@ -1359,9 +1413,9 @@ void eeprom_write() {
   data[7] = log_ozone;
   data[8] = log_fan;
   data[9] = log_oncount;
-  data[10] = log_OZONE[0];
-  data[11] = log_OZONE[1];
-  data[12] = log_OZONE[2];
+  data[10] = log_OZONE10[0];
+  data[11] = log_OZONE10[1];
+  data[12] = log_OZONE10[2];
   int n = 0;
   Serial.println("EEPROM WRITE");
   for (int i = 0; i < 13; i++) {
@@ -1436,15 +1490,15 @@ int eeprom_verify() {
     Serial.printf("error 1 as %d\n", data[9]);
     chkEEPROMerrorcount++;
   }
-  if ( log_OZONE[0] != data[10]) {
+  if ( log_OZONE10[0] != data[10]) {
     Serial.printf("error 1 as %d\n", data[10]);
     chkEEPROMerrorcount++;
   }
-  if ( log_OZONE[1] != data[11]) {
+  if ( log_OZONE10[1] != data[11]) {
     Serial.printf("error 1 as %d\n", data[11]);
     chkEEPROMerrorcount++;
   }
-  if ( log_OZONE[2] != data[12]) {
+  if ( log_OZONE10[2] != data[12]) {
     Serial.printf("error 1 as %d\n", data[12]);
     chkEEPROMerrorcount++;
   }
@@ -1459,17 +1513,50 @@ void eeprom_read() {
   }
   if ( -1 != data[0] ) {
     if ( 0 == data[0] ) {  // eeprom data version up
-      log_OZONE[0] = data[7] / 3;
-      log_OZONE[1] = data[7] / 3;
-      log_OZONE[2] = data[7] / 3;
+      log_OZONE10[0] = data[7] / 30;
+      log_OZONE10[1] = data[7] / 30;
+      log_OZONE10[2] = data[7] / 30;
     } else {
       maintenance_Count = data[0];
-      if ( -1 != data[10] ) log_OZONE[0] = data[10];
-      if ( -1 != data[11] ) log_OZONE[1] = data[11];
-      if ( -1 != data[12] ) log_OZONE[2] = data[12];
+      if ( -1 != data[10] ) log_OZONE10[0] = data[10];
+      if ( -1 != data[11] ) log_OZONE10[1] = data[11];
+      if ( -1 != data[12] ) log_OZONE10[2] = data[12];
 
     }
   }
+
+  // ozone管利用優先順位
+  if ( log_OZONE10[0] <= log_OZONE10[1] && log_OZONE10[0] <= log_OZONE10[2]  ) {
+    OZONEorder[0] = 0;
+    if ( log_OZONE10[1] <= log_OZONE10[2] ){
+      OZONEorder[1] = 1;
+      OZONEorder[2] = 2;
+    } else {
+      OZONEorder[1] = 2;
+      OZONEorder[2] = 1;
+    }
+  } else {
+    if ( log_OZONE10[1] <= log_OZONE10[2] ){
+      OZONEorder[0] = 1;
+      if ( log_OZONE10[0] <= log_OZONE10[2] ){
+        OZONEorder[1] = 0;
+        OZONEorder[2] = 2;
+      } else {
+        OZONEorder[1] = 2;
+        OZONEorder[2] = 0;
+      }
+    } else {
+      OZONEorder[0] = 2;
+      if ( log_OZONE10[0] <= log_OZONE10[1] ){
+        OZONEorder[1] = 0;
+        OZONEorder[2] = 1;
+      } else {
+        OZONEorder[1] = 1;
+        OZONEorder[2] = 0;
+      }
+    }
+  }
+  
   if ( -1 != data[1] ) oneshot_Ozonelevel = data[1];
   if ( -1 != data[2] ) oneshot_endtime = data[2];
   if ( -1 != data[3] ) program_Ozonelevel = data[3];
@@ -2236,7 +2323,7 @@ void maintenancemode1() {
   labelText(m112);
   labelText(m113);
   md110.text = mkTimeString(log_pump);
-  md111.text = String(mkTimeString(log_OZONE[0])+"    "+mkTimeString(log_OZONE[1])+"    "+mkTimeString(log_OZONE[2]));
+  md111.text = String(mkTimeString(log_OZONE10[0]/10)+"    "+mkTimeString(log_OZONE10[1]/10)+"    "+mkTimeString(log_OZONE10[2]/10));
   md112.text = mkTimeString(log_fan);
   char buf[20];
   sprintf(buf, "%d", log_oncount);
@@ -2482,12 +2569,12 @@ void setup() {
   Serial.println(log_fan);
   Serial.print("log_oncount:");
   Serial.println(log_oncount);
-  Serial.print("log_OZONE0:");
-  Serial.println(log_OZONE[0]);
-  Serial.print("log_OZONE1:");
-  Serial.println(log_OZONE[1]);
-  Serial.print("log_OZONE2:");
-  Serial.println(log_OZONE[2]);
+  Serial.print("log_OZONE10_0:");
+  Serial.println(log_OZONE10[0]/10);
+  Serial.print("log_OZONE10_1:");
+  Serial.println(log_OZONE10[1]/10);
+  Serial.print("log_OZONE10_2:");
+  Serial.println(log_OZONE10[2]/10);
 
   //timerAlarmDisable(timer);    // stop alarm
   //timerDetachInterrupt(timer);  // detach interrupt
