@@ -1,0 +1,26 @@
+### Footprint positions - created on 2023年09月13日 19時42分51秒 ###
+### Printed by KiCad version 7.0.7-7.0.7~ubuntu22.04.1
+## Unit = mm, Angle = deg.
+## Side : bottom
+# Ref     Val              Package                                                 PosX       PosY       Rot  Side
+BZ1       Buzzer           Buzzer_7.6_5.0                                       82.4880   -10.3080   90.0000  bottom
+C13       1000p            C_Disc_D10.5mm_W5.0mm_P10.00mm                       91.0880   -48.3080  180.0000  bottom
+C14       1000p            C_Disc_D10.5mm_W5.0mm_P10.00mm                      104.0880   -48.3080  180.0000  bottom
+F1        Fuse             20mmFuse_P5x2                                        64.4880   -52.3080    0.0000  bottom
+J1        SERVICE          PinHeader_1x10_P2.54mm_Vertical                     167.0920   -16.9205   65.0000  bottom
+J2        Conn_01x04_Male  JST_NV_B04P-NV_1x04_P5.00mm_Vertical                 70.4880   -63.3080    0.0000  bottom
+J5        Conn_01x03_Male  JST_VH_B3P-VH_1x03_P3.96mm_Vertical                  54.4880   -63.3080    0.0000  bottom
+J6        Conn_01x02_Male  JST_NV_B02P-NV_1x02_P5.00mm_Vertical                 16.4880   -58.3080  -25.0000  bottom
+J7        Conn_01x02_Male  JST_NV_B02P-NV_1x02_P5.00mm_Vertical                  6.4880   -53.8080  -25.0000  bottom
+J8        Conn_01x02_Male  JST_NV_B02P-NV_1x02_P5.00mm_Vertical                 -3.5120   -49.3080  -25.0000  bottom
+M1        Fan_CPU_4pin     FanPinHeader_1x03_P2.54mm_Vertical                  125.9880   -67.8080  180.0000  bottom
+M2        Fan_CPU_4pin     FanPinHeader_1x03_P2.54mm_Vertical                  114.4880   -67.8080  180.0000  bottom
+PS1       IRM-20-12        Converter_ACDC_MeanWell_IRM-20-xx_THT                57.4880   -39.3080    0.0000  bottom
+R23       1MΩ             R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal    91.0880   -54.1080  180.0000  bottom
+R24       1MΩ             R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal   104.2480   -54.1080  180.0000  bottom
+U4        DHT11            Aosong_DHT11_5.5x12.0_P2.54mm                        59.4880    -5.3080  -90.0000  bottom
+U5        S108T02          SSR_SHARP_S108T02_NNC_NNG1D-25mm                     16.4880   -37.3080   90.0000  bottom
+U6        S108T02          SSR_SHARP_S108T02_NNC_NNG1D-25mm                      9.9880   -33.8080   90.0000  bottom
+U7        S108T02          SSR_SHARP_S108T02_NNC_NNG1D-25mm                      2.9880   -29.8080   90.0000  bottom
+U8        S108T02          SSR_SHARP_S108T02_NNC_NNG1D-25mm                     -4.0120   -26.8080   90.0000  bottom
+## End

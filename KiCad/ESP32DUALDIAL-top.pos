@@ -1,0 +1,47 @@
+### Footprint positions - created on 2023年09月13日 19時42分51秒 ###
+### Printed by KiCad version 7.0.7-7.0.7~ubuntu22.04.1
+## Unit = mm, Angle = deg.
+## Side : top
+# Ref     Val                              Package                                              PosX       PosY       Rot  Side
+C1        0.1uF                            R_0603_1608Metric                                169.2380   -26.4830  -90.0000  top
+C2        0.1uF                            R_0603_1608Metric                                170.2380   -30.3080   90.0000  top
+C3        10u                              C_0402_1005Metric                                169.4880   -22.7880  -90.0000  top
+C4        0.1uF                            R_0603_1608Metric                                131.8880   -27.1080  180.0000  top
+C5        0.1uF                            R_0603_1608Metric                                 37.6630   -29.8080  180.0000  top
+C6        20p                              C_0402_1005Metric                                122.7920   -47.7280    0.0000  top
+C7        0.1uF                            R_0603_1608Metric                                 37.6630   -26.7080  180.0000  top
+C8        0.1uF                            R_0603_1608Metric                                135.7880   -44.9080    0.0000  top
+C9        0.1uF                            R_0603_1608Metric                                139.3880   -44.9080  180.0000  top
+C10       10u                              C_0402_1005Metric                                112.4880   -50.3080    0.0000  top
+C11       10u                              C_0402_1005Metric                                112.4880   -52.8080  180.0000  top
+C12       0.1uF                            R_0603_1608Metric                                 37.6880   -24.1080    0.0000  top
+D1        D_Schottky                       D_SOD-123F                                       112.4880   -64.3080    0.0000  top
+J3        mode                             PinHeader_2x01_P2.54mm_Vertical                  146.4880   -37.8080   90.0000  top
+Q1        Q_NMOS_GDS                       TO-252-2                                         117.2880   -57.5080  180.0000  top
+R1        103                              R_0603_1608Metric                                 72.6630    -5.3080  180.0000  top
+R2        10k                              R_0603_1608Metric                                168.2380   -22.4830  -90.0000  top
+R3        10k                              R_0603_1608Metric                                136.9880   -11.4080   90.0000  top
+R5        270                              R_0603_1608Metric                                 57.4880    -9.8080  -90.0000  top
+R6        270                              R_0603_1608Metric                                 54.9880    -9.8080  -90.0000  top
+R7        270                              R_0603_1608Metric                                 52.4880    -9.8080  -90.0000  top
+R8        270                              R_0603_1608Metric                                 49.9880    -9.7830  -90.0000  top
+R9        1k                               R_0603_1608Metric                                122.8470   -50.1280    0.0000  top
+R10       100k                             R_0603_1608Metric                                117.5630   -49.5580    0.0000  top
+R11       270                              R_0603_1608Metric                                137.6630   -24.8580    0.0000  top
+R12       270                              R_0603_1608Metric                                145.0880   -23.5080    0.0000  top
+R13       270                              R_0603_1608Metric                                141.4380   -24.1580    0.0000  top
+R14       270                              R_0603_1608Metric                                 61.6880   -10.5080   90.0000  top
+R15       270                              R_0603_1608Metric                                 64.2880   -10.4830   90.0000  top
+R16       270                              R_0603_1608Metric                                 66.8880   -10.5080   90.0000  top
+R17       10k                              R_0603_1608Metric                                139.3880   -11.3830  -90.0000  top
+R18       10k                              R_0603_1608Metric                                144.3880   -11.3830  -90.0000  top
+R20       10k                              R_0603_1608Metric                                141.8880   -11.3830  -90.0000  top
+R22       10k                              R_0603_1608Metric                                146.7880   -11.3830  -90.0000  top
+REF**     SolderWirePad_single_1-2mmDrill  SolderWirePad_single_1-2mmDrill                   -6.4364    -6.1878    0.0000  top
+SW1       Rotary_Encoder_Switch            RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm   134.9880   -41.8080   90.0000  top
+SW2       Rotary_Encoder_Switch            RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm    24.9880   -41.8080   90.0000  top
+U1        CR2013-MI2120                    TFT3.2_ILI9341                                    82.4880   -34.3080  180.0000  top
+U2        ESP-WROOM-32                     ESP-WROOM-32                                     161.4880   -38.8080  -157.5000  top
+U9        TBD62783A                        SOIC-18W_7.5x11.6mm_P1.27mm                      109.9880    -5.8080  -90.0000  top
+U10       ROAM_BP5293-33                   Converter_DCDC_RECOM_R-78E-0.5_THT               132.8880   -17.0280  -90.0000  top
+## End

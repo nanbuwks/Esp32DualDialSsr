@@ -1,35 +1,38 @@
-"Id";"Designator";"Package";"Quantity";"Designation";"Supplier and ref";
-1;"U1";"TFT3.2_ILI9341";1;"CR2013-MI2120";;;
-2;"BZ1";"Buzzer_7.6_5.0";1;"Buzzer";;;
-3;"U2";"ESP-WROOM-32";1;"ESP-WROOM-32";;;
-4;"U5,U6,U7,U8";"SSR_SHARP_S108T02_NNC_NNG1D-25mm";4;"S108T02";;;
-5;"REF**";"SolderWirePad_single_1-2mmDrill";1;"SolderWirePad_single_1-2mmDrill";;;
-6;"C1,C2,C4,C5,C7,C8,C9,C12";"R_0603_1608Metric";8;"0.1uF";;;
-7;"C3,C10,C11";"C_0402_1005Metric";3;"10u";;;
-8;"C6";"C_0402_1005Metric";1;"20p";;;
-9;"PS1";"Converter_ACDC_MeanWell_IRM-20-xx_THT";1;"IRM-20-12";;;
-10;"R1";"R_0603_1608Metric";1;"103";;;
-11;"R2,R3,R17,R18,R19,R20,R21,R22";"R_0603_1608Metric";8;"10k";;;
-12;"R5,R6,R7,R8,R11,R13,R14,R15,R16,R12";"R_0603_1608Metric";10;"270";;;
-13;"R9";"R_0603_1608Metric";1;"1k";;;
-14;"R10";"R_0603_1608Metric";1;"100k";;;
-15;"SW1,SW2";"RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm";2;"Rotary_Encoder_Switch";;;
-16;"U4";"Aosong_DHT11_5.5x12.0_P2.54mm";1;"DHT11";;;
-17;"J1";"PinHeader_1x10_P2.54mm_Vertical";1;"SERVICE";;;
-18;"H2,H3,H4,H1";"MountingHole_3.2mm_M3_Pad";4;"MountingHole_Pad";;;
-19;"JP1";"SolderJumper-2_P1.3mm_Bridged_Pad1.0x1.5mm";1;"Jumper";;;
-20;"JP2,JP3";"SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm_NumberLabels";2;"Jumper_NC_Dual";;;
-21;"R4";"R_0603_1608Metric";1;"NC";;;
-22;"U3";"QS-1205CME-3A_MINIDC-DC_12-24Vto5V3A_1.8V_2.5V_3.3V_5V_9V_12V";1;"QS-1205CME-3A_MINIDC-DC_12-24Vto5V3A_1.8V_2.5V_3.3V_5V_9V_12V";;;
-23;"D1";"D_SOD-123F";1;"D_Schottky";;;
-24;"F1";"20mmFuse_P5x2";1;"Fuse";;;
-25;"J2";"JST_NV_B04P-NV_1x04_P5.00mm_Vertical";1;"Conn_01x04_Male";;;
-26;"J5";"JST_VH_B3P-VH_1x03_P3.96mm_Vertical";1;"Conn_01x03_Male";;;
-27;"J6,J7,J8";"JST_NV_B02P-NV_1x02_P5.00mm_Vertical";3;"Conn_01x02_Male";;;
-28;"U10";"Mini560_DC-DC_JW5068A";1;"Mini560_DC-DC_JW5068A";;;
-29;"M1,M2";"FanPinHeader_1x03_P2.54mm_Vertical";2;"Fan_CPU_4pin";;;
-30;"J3";"PinHeader_2x01_P2.54mm_Vertical";1;"mode";;;
-31;"TP1,TP2,TP3,TP4,TP5,TP6,TP8,TP9,TP10,TP11,TP12";"TestPoint_Pad_D2.0mm";11;"TestPoint";;;
-32;"TP7,TP13";"TestPoint_Pad_D3.0mm";2;"TestPoint";;;
-33;"U9";"SOIC-18W_7.5x11.6mm_P1.27mm";1;"TBD62783A";;;
-34;"Q1";"TO-252-2";1;"Q_NMOS_GDS";;;
+"Source:","/home/nanbuwks/00storage/KiCad/ESP32DUALDIAL/github/KiCad/ESP32DUALDIAL.kicad_sch"
+"Date:","2023年09月13日 19時16分03秒"
+"Tool:","Eeschema 7.0.7-7.0.7~ubuntu22.04.1"
+"Generator:","/usr/share/kicad/plugins/bom_csv_grouped_by_value_with_fp.py"
+"Component Count:","79"
+"Ref","Qnty","Value","Cmp name","Footprint","Description","Vendor","DNP"
+"BZ1","1","Buzzer","Buzzer","library:Buzzer_7.6_5.0","Buzzer, polarized","",""
+"C1, C2, C4, C5, C7, C8, C9, C12","8","0.1uF","C","Resistor_SMD:R_0603_1608Metric","Unpolarized capacitor","",""
+"C3, C10, C11","3","10u","C","Capacitor_SMD:C_0402_1005Metric","Unpolarized capacitor","",""
+"C6","1","20p","C","Capacitor_SMD:C_0402_1005Metric","Unpolarized capacitor","",""
+"C13, C14","2","1000p","C","Capacitor_THT:C_Disc_D10.5mm_W5.0mm_P10.00mm","Unpolarized capacitor","",""
+"D1","1","D_Schottky","D_Schottky","Diode_SMD:D_SOD-123F","Schottky diode","",""
+"F1","1","Fuse","Fuse","library:20mmFuse_P5x2","Fuse","",""
+"H1, H2, H3, H4","4","MountingHole_Pad","MountingHole_Pad","MountingHole:MountingHole_3.2mm_M3_Pad","Mounting Hole with connection","",""
+"J1","1","SERVICE","Conn_01x10_Male","Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical","Generic connector, single row, 01x10, script generated (kicad-library-utils/schlib/autogen/connector/)","",""
+"J2","1","Conn_01x04_Male","Conn_01x04_Male","Connector_JST:JST_NV_B04P-NV_1x04_P5.00mm_Vertical","Generic connector, single row, 01x04, script generated (kicad-library-utils/schlib/autogen/connector/)","",""
+"J3","1","mode","Conn_01x02","Connector_PinHeader_2.54mm:PinHeader_2x01_P2.54mm_Vertical","Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)","",""
+"J5","1","Conn_01x03_Male","Conn_01x03_Male","Connector_JST:JST_VH_B3P-VH_1x03_P3.96mm_Vertical","Generic connector, single row, 01x03, script generated (kicad-library-utils/schlib/autogen/connector/)","",""
+"J6, J7, J8","3","Conn_01x02_Male","Conn_01x02_Male","Connector_JST:JST_NV_B02P-NV_1x02_P5.00mm_Vertical","Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)","",""
+"JP2, JP3","2","Jumper_NC_Dual","Jumper_NC_Dual-Device","Jumper:SolderJumper-3_P1.3mm_Bridged12_RoundedPad1.0x1.5mm_NumberLabels","","",""
+"M1, M2","2","Fan_CPU_4pin","Fan_CPU_4pin","Connector:FanPinHeader_1x03_P2.54mm_Vertical","CPU Fan, tacho output, PWM input, 4-pin connector","",""
+"PS1","1","IRM-20-12","IRM-20-12","Converter_ACDC:Converter_ACDC_MeanWell_IRM-20-xx_THT","12V, 1.8A, 21.6W, Isolated, AC-DC, 219A(IRM20)","",""
+"Q1","1","Q_NMOS_GDS","Q_NMOS_GDS","Package_TO_SOT_SMD:TO-252-2","N-MOSFET transistor, gate/drain/source","",""
+"R1","1","103","R","Resistor_SMD:R_0603_1608Metric","Resistor","",""
+"R2, R3, R17, R18, R20, R22","6","10k","R","Resistor_SMD:R_0603_1608Metric","Resistor","",""
+"R5, R6, R7, R8, R11, R12, R13, R14, R15, R16","10","270","R","Resistor_SMD:R_0603_1608Metric","Resistor","",""
+"R9","1","1k","R","Resistor_SMD:R_0603_1608Metric","Resistor","",""
+"R10","1","100k","R","Resistor_SMD:R_0603_1608Metric","Resistor","",""
+"R23, R24","2","1MΩ","R","Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P10.16mm_Horizontal","Resistor","",""
+"SW1, SW2","2","Rotary_Encoder_Switch","Rotary_Encoder_Switch-Device","Rotary_Encoder:RotaryEncoder_Alps_EC11E-Switch_Vertical_H20mm","","",""
+"TP1, TP2, TP3, TP4, TP5, TP6, TP8, TP9, TP10, TP11, TP12","11","TestPoint","TestPoint","TestPoint:TestPoint_Pad_D2.0mm","test point","",""
+"TP7, TP13","2","TestPoint","TestPoint","TestPoint:TestPoint_Pad_D3.0mm","test point","",""
+"U1","1","CR2013-MI2120","CR2013-MI2120","library:TFT3.2_ILI9341","ILI9341 controller, SPI TFT LCD Display, 9-pin breakout PCB, 4-pin SD card interface, 5V/3.3V","",""
+"U2","1","ESP-WROOM-32","ESP-WROOM-32-nanbuwks","library:ESP-WROOM-32","","",""
+"U4","1","DHT11","DHT11","Sensor:Aosong_DHT11_5.5x12.0_P2.54mm","Temperature and humidity module","",""
+"U5, U6, U7, U8","4","S108T02","S112S01","library:SSR_SHARP_S108T02_NNC_NNG1D-25mm","Random Phase Opto-Triac, Vdrm 400V, Ift 8mA, IT 12A","",""
+"U9","1","TBD62783A","TBD62783A","Package_SO:SOIC-18W_7.5x11.6mm_P1.27mm","8-Channel Source Type Transistor Array, TTL and CMOS compatible, 500mA, 50V, DIP-18/SOP-18/SSOP-18/SOIC-18W","",""
+"U10","1","ROAM BP5293-33","R-78E3.3-1.0","Converter_DCDC:Converter_DCDC_RECOM_R-78E-0.5_THT","1A Step-Down DC/DC-Regulator, 6-28V input, 3.3V fixed Output Voltage, LM78xx replacement, -40°C to +85°C, SIP3","",""
