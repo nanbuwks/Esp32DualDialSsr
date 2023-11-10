@@ -7,7 +7,7 @@
 //#include <SPIFFS.h>
 //#include <FS.h>
 #include <EEPROM.h>
-#define VERSION "Ver1.3"
+#define VERSION "Ver1.4"
 #define MODEXDEFAULT 0 // 1 ... 空間除菌有効
 #include "commercial.h"
 struct LGFX_Config
@@ -990,11 +990,11 @@ int ozoneRun(int newPos2, int pos2) {  // オゾン濃度反映、オゾン濃�
     encoder2.setPosition(0);
   }
 
-  if (
+  if ( ( 1 == mode_X ) && ( 
     ( pos2 >= Ozone_WARN_LIMIT && newPos2 <  Ozone_WARN_LIMIT )
     ||
     ( pos2 < Ozone_WARN_LIMIT && newPos2 >=  Ozone_WARN_LIMIT )
-  )
+  ))
   { // ゲージ4
     ozoneChangeColor(newPos2);
     drawSetDisp();
@@ -1281,6 +1281,8 @@ void drawSetDisp() {         // 描画一式
   labelText(timeOzoneMax);
   labelText(timeOzoneBar);
 }
+
+
 //----------------------------------------------------------------------------------
 // 動作モード関係
 void start(int ozonelevel ) {
@@ -1961,11 +1963,11 @@ int setonstart() {
         newPos2 = 0;
         encoder2.setPosition(0);
       }
-      if (
-        ( pos2 >= Ozone_WARN_LIMIT && newPos2 <  Ozone_WARN_LIMIT )
-        ||
-        ( pos2 < Ozone_WARN_LIMIT && newPos2 >=  Ozone_WARN_LIMIT )
-      )
+      if ( ( 1 == mode_X ) && ( 
+    ( pos2 >= Ozone_WARN_LIMIT && newPos2 <  Ozone_WARN_LIMIT )
+    ||
+    ( pos2 < Ozone_WARN_LIMIT && newPos2 >=  Ozone_WARN_LIMIT )
+      ))
       { // ゲージ4
         ozoneChangeColor(newPos2);
         drawSetDisp();
@@ -2054,11 +2056,11 @@ int setonend(int waittime, int ozonelevel) { // waittime ... programmode1のた�
         newPos2 = 0;
         encoder2.setPosition(0);
       }
-      if (
-        ( pos2 >= Ozone_WARN_LIMIT && newPos2 <  Ozone_WARN_LIMIT )
-        ||
-        ( pos2 < Ozone_WARN_LIMIT && newPos2 >=  Ozone_WARN_LIMIT )
-      )
+      if ( ( 1 == mode_X ) && ( 
+    ( pos2 >= Ozone_WARN_LIMIT && newPos2 <  Ozone_WARN_LIMIT )
+    ||
+    ( pos2 < Ozone_WARN_LIMIT && newPos2 >=  Ozone_WARN_LIMIT )
+    ))
       { // ゲージ4
         ozoneChangeColor(newPos2);
         drawSetDisp();
@@ -2201,11 +2203,11 @@ int set() {
         newPos2 = 0;
         encoder2.setPosition(0);
       }
-      if (
-        ( pos2 >= Ozone_WARN_LIMIT && newPos2 <   Ozone_WARN_LIMIT )
-        ||
-        ( pos2 <  Ozone_WARN_LIMIT && newPos2 >=  Ozone_WARN_LIMIT )
-      )
+        if ( ( 1 == mode_X ) && ( 
+    ( pos2 >= Ozone_WARN_LIMIT && newPos2 <  Ozone_WARN_LIMIT )
+    ||
+    ( pos2 < Ozone_WARN_LIMIT && newPos2 >=  Ozone_WARN_LIMIT )
+  ))
       { // ゲージ4
         ozoneChangeColor(newPos2);
         drawSetDisp();
@@ -2746,7 +2748,7 @@ void setup() {
 
   */
   EEPROM.begin(64); // int 4 byte x 14 + 8
-  delay(2000);
+  delay(200);
   eeprom_read();
 
   Serial.print("mainetance_Count:");
@@ -2793,7 +2795,7 @@ void setup() {
 
   // digitalWrite(TFT_BACKLIGHT_PIN,HIGH);
   runFAN();
-  delay(10000);
+  delay(500);
   Serial.println("FAN start");
 
   //tft.begin();
