@@ -1,8 +1,13 @@
 #include <LovyanGFX.hpp>
+
+/*
+#include <LovyanGFX.hpp>
+
+*/
 //#include <SPIFFS.h>
 //#include <FS.h>
 #include <EEPROM.h>
-#define VERSION "Ver1.2pre2"
+#define VERSION "Ver1.3"
 #define MODEXDEFAULT 0 // 1 ... 空間除菌有効
 #include "commercial.h"
 struct LGFX_Config
@@ -16,8 +21,7 @@ struct LGFX_Config
 };
 static lgfx::LGFX_SPI<LGFX_Config> tft;
 static lgfx::Panel_ILI9341 panel;
-
-
+static LGFX_Sprite sprite(&tft);
 #include <RotaryEncoder.h>
 
 
@@ -95,8 +99,10 @@ int timeSeconds[WAITTIMEMAX + 1] = {
   3600, 5400, 7200, 9000, 10800, 12600, 14400, 16200, 18000, 19800, 21600, 23400, 25200, 27000, 28800, 30600, 32400, 34200, 36000, 37800,
   39600, 41400, 43200
 };
-
-
+// sprite design
+  int16_t spriteoffsetx=40, spriteoffsety=100;
+  int16_t spritesizex=240, spritesizey=64;
+  
 // EEPROM paramater
 int maintenance_Count = 1;
 int oneshot_Ozonelevel = 2;
@@ -835,6 +841,29 @@ void selectLabelText(LABEL label) {
   tft.println(label.text);
 }
 
+void stateText(LABEL label) {  // 背景消さずに上書き描画  描画済みのテキストの色だけを変更する場合に使う
+  unsigned long start = micros();
+  int16_t xstart, ystart;
+  uint16_t w, h;
+  tft.setFont( &label.font);
+  tft.setTextSize(label.scale);
+  // tft.getTextBounds( label.text,0,0,&xstart,&ystart,&w,&h);
+  w = tft.textWidth(label.text);
+  h = tft.fontHeight();
+  int xtextbase, ytextbase;
+  // xtextbase = label.x1+label.xlength/2 - w/2;
+  // ytextbase = label.y1+label.ylength/2 + h/2;
+  // tft.setCursor(xtextbase, ytextbase);
+  tft.setCursor(label.x1, label.y1);
+  tft.setTextColor(label.fgcolor);
+  tft.println(label.text);
+
+
+}
+
+
+
+
 void labelText(LABEL label) {
   unsigned long start = micros();
   tft.fillRect(label.x1, label.y1, label.xlength, label.ylength, label.bgcolor);
@@ -852,6 +881,36 @@ void labelText(LABEL label) {
   tft.setCursor(label.x1, label.y1);
   tft.setTextColor(label.fgcolor);
   tft.println(label.text);
+
+
+}
+
+
+
+void labelTextSprite(LABEL label) {  // pushSprite はしないので外部で行う必要がある
+  unsigned long start = micros();
+// spriteoffset値
+
+
+  sprite.fillRect(label.x1-spriteoffsetx, label.y1-spriteoffsety, label.xlength, label.ylength, label.bgcolor);
+
+  int16_t xstart, ystart;
+  uint16_t w, h;
+  sprite.setFont( &label.font);
+  sprite.setTextSize(label.scale);
+  // tft.getTextBounds( label.text,0,0,&xstart,&ystart,&w,&h);
+  w = sprite.textWidth(label.text);
+  h = sprite.fontHeight();
+  int xtextbase, ytextbase;
+  // xtextbase = label.x1+label.xlength/2 - w/2;
+  // ytextbase = label.y1+label.ylength/2 + h/2;
+  // tft.setCursor(xtextbase, ytextbase);
+  sprite.setCursor(label.x1-spriteoffsetx, label.y1-spriteoffsety);
+  sprite.setTextColor(label.fgcolor);
+  sprite.println(label.text);
+
+
+
 }
 
 void frameText(LABEL label) {
@@ -1176,7 +1235,7 @@ void drawTimeAs(int level) { // 指定時間の描画
   drawTime();
 }
 
-void drawTime() { // 時間描画
+void drawTime() { // 時間描画 (spriteに書く)
   /*  Serial.print(mode);
     Serial.println(":h,m,s=");
     Serial.println(timeHour.text);
@@ -1186,30 +1245,36 @@ void drawTime() { // 時間描画
   */
   if ( 0 != timeHour.text.compareTo("  "))
   {
-    labelText(timeHour);      // 3600秒以上の場合
-    labelText(timeZikan);
+    labelTextSprite(timeHour);      // 3600秒以上の場合
+    labelTextSprite(timeZikan);
     Serial.println("zikan drawing...");
   } else {                    // 3600秒未満の場合
-    tft.fillRect(timeHour.x1, timeHour.y1, timeHour.xlength, timeHour.ylength, timeHour.bgcolor);
-    tft.fillRect(timeZikan.x1, timeZikan.y1, timeZikan.xlength, timeZikan.ylength, timeZikan.bgcolor);
+    sprite.fillRect(timeHour.x1-spriteoffsetx, timeHour.y1-spriteoffsety, timeHour.xlength, timeHour.ylength, timeHour.bgcolor);
+    sprite.fillRect(timeZikan.x1-spriteoffsetx, timeZikan.y1-spriteoffsety, timeZikan.xlength, timeZikan.ylength, timeZikan.bgcolor);
   }
 
+
   if ( 0 != timeMinute.text.compareTo("  ")) {
-    labelText(timeMinute);
-    labelText(timeFan);       // 60秒以上の場合
+    labelTextSprite(timeMinute);
+    labelTextSprite(timeFan);       // 60秒以上の場合
   } else {
-    labelText(timeMinute);    // 60秒未満の場合
-    tft.fillRect(timeFan.x1, timeFan.y1, timeFan.xlength, timeFan.ylength, timeFan.bgcolor);
+    labelTextSprite(timeMinute);    // 60秒未満の場合
+    sprite.fillRect(timeFan.x1-spriteoffsetx, timeFan.y1-spriteoffsety, timeFan.xlength, timeFan.ylength, timeFan.bgcolor);
   }
-  labelText(timeSecond);
-  labelText(timeByou);
+  labelTextSprite(timeSecond);
+  labelTextSprite(timeByou);
+  sprite.pushSprite(spriteoffsetx,spriteoffsety);
 }
 void drawSetDisp() {         // 描画一式
   tft.fillScreen(OzoneBgColor);
+ // sprite.fillRect(22-spriteoffsetx, 13-spriteoffsety, spritesizex, spritesizey, OzonePnColor);
+  sprite.fillRect(0,0, spritesizex, spritesizey,OzonePnColor);
+//  sprite.fillRect(35-spriteoffsetx, 25-spriteoffsety, 211, 30, OzoneTitleColor);
+
   tft.fillRect(22, 13, 277, 154, OzonePnColor);
   tft.fillRect(35, 25, 211, 30, OzoneTitleColor);
   labelText(timetitle);
-  labelText(timeState);
+  stateText(timeState);
   drawTime();
   labelText(timeOzone);
   labelText(timeOzoneMin);
@@ -1268,15 +1333,16 @@ void stop() {
   Ozonelevel = 0;
   mode = "stop";
   int pos2 = encoder2.getPosition();
-  tft.fillRect(timeHour.x1, timeHour.y1, timeHour.xlength, timeHour.ylength, timeHour.bgcolor);
-  tft.fillRect(timeZikan.x1, timeZikan.y1, timeZikan.xlength, timeZikan.ylength, timeZikan.bgcolor);
-  tft.fillRect(timeFan.x1, timeFan.y1, timeFan.xlength, timeFan.ylength, timeFan.bgcolor);
+  sprite.fillRect(timeHour.x1-spriteoffsetx, timeHour.y1-spriteoffsety, timeHour.xlength, timeHour.ylength, timeHour.bgcolor);
+  sprite.fillRect(timeZikan.x1-spriteoffsetx, timeZikan.y1-spriteoffsety, timeZikan.xlength, timeZikan.ylength, timeZikan.bgcolor);
+  sprite.fillRect(timeFan.x1-spriteoffsetx, timeFan.y1-spriteoffsety, timeFan.xlength, timeFan.ylength, timeFan.bgcolor);
   timeHour.text = "  ";
   timeMinute.text = "  ";
   timeSecond.text = " 0";
-  labelText(timeHour);
-  labelText(timeMinute);
-  labelText(timeSecond);
+  labelTextSprite(timeHour);
+  labelTextSprite(timeMinute);
+  labelTextSprite(timeSecond);
+  sprite.pushSprite(spriteoffsetx,spriteoffsety);
   peee();
 
   int chkOneshot_Ozonelevel[10];
@@ -1743,8 +1809,7 @@ int programmode1(int waittimelevel, int endtimelevel, int ozonelevel) {
         //            oneshot_Ozonelevel = pos2;
         mode = "";
         ozoneChangeColor( pos2 );
-        labelText(timeState);  // 点滅を元に戻す
-
+        stateText(timeState);  // 点滅を元に戻す
         stop();
         return (2);
       }
@@ -1761,7 +1826,7 @@ int programmode1(int waittimelevel, int endtimelevel, int ozonelevel) {
     if ( oldTimeStateColor != timeState.fgcolor )
     {
       drawTime();   // 点滅
-      labelText(timeState);  // 点滅
+      stateText(timeState);  // 点滅
     }
     oldTimeStateColor = timeState.fgcolor;
     delay(FRAMERATEDELAY);
@@ -1835,7 +1900,7 @@ int programmode2(int endtimelevel) {
         //                oneshot_Ozonelevel = pos2;
         mode = "";
         ozoneChangeColor( pos2 );
-        labelText(timeState);  // 点滅を元に戻す
+        stateText(timeState);  // 点滅を元に戻す
 
         stop();
         return (2);
@@ -1848,7 +1913,7 @@ int programmode2(int endtimelevel) {
       //              oneshot_Ozonelevel = pos2;
       mode = "";
       ozoneChangeColor( pos2 );
-      labelText(timeState);  // 点滅を元に戻す
+      stateText(timeState);  // 点滅を元に戻す
       stop();
       return (0);
     }
@@ -1856,7 +1921,7 @@ int programmode2(int endtimelevel) {
     if ( oldTimeStateColor != timeState.fgcolor )
     {
       drawTime();   // 点滅
-      labelText(timeState);  // 点滅
+      stateText(timeState);  // 点滅
     }
     oldTimeStateColor = timeState.fgcolor;
     delay(FRAMERATEDELAY);
@@ -2089,9 +2154,16 @@ int set() {
   }
   timeState.text = "稼働時間";
   ozoneChangeColor(newPos2);
-  tft.fillScreen(OzonePnColor); // 画面のちらつきを防止するために先に時間だけ書いておく
+//  sprite.fillScreen(OzonePnColor); // 画面のちらつきを防止するために先に時間だけ書く 背景を埋める // bugのため書き直し
+//  sprite.fillScreen(TFT_VIOLET); // 画面のちらつきを防止するために先に時間だけ書く 背景を埋める // bugのため書き直し
+//  sprite.fillRect(22-spriteoffsetx, 13-spriteoffsety, 277, 154, OzonePnColor);
+//  tft.fillRect(22, 13, 277, 154, OzonePnColor);
+//  tft.fillRect(22, 13, 277, 154, TFT_SKYBLUE);
   drawTimeAs(newPos1);  // 時間表示部分 時間の文字列を作成 副作用で画面に出力される
+
+
   drawSetDisp();        // 画面表示完成
+
   // Serial.println("enter set");
   //  Serial.printf("pos1 %d newPos1 %d pos2 %d newPos2 %d\n", pos1, newPos1, pos2, newPos2);
   // delay(5000);
@@ -2233,7 +2305,7 @@ int run() {
         oneshot_Ozonelevel = pos2;
         mode = "";
         ozoneChangeColor( pos2 );
-        labelText(timeState);  // 点滅を元に戻す
+        stateText(timeState);  // 点滅を元に戻す
         stop();
         return (2);
       }
@@ -2245,7 +2317,7 @@ int run() {
       oneshot_Ozonelevel = pos2;
       mode = "";
       ozoneChangeColor( pos2 );
-      labelText(timeState);  // 点滅を元に戻す
+      stateText(timeState);  // 点滅を元に戻す
       stop();
       return (0);
     }
@@ -2253,7 +2325,7 @@ int run() {
     if ( oldTimeStateColor != timeState.fgcolor );
     {
       drawTime();   // 点滅
-      labelText(timeState);  // 点滅
+      stateText(timeState);  // 点滅
     }
     oldTimeStateColor = timeState.fgcolor;
     delay(FRAMERATEDELAY);
@@ -2372,7 +2444,7 @@ int resetting(int timesecond, int ozonelevel, char *statetext, int maxTimeLevel 
     if ( oldTimeStateColor != timeState.fgcolor )
     {
       drawTimeAs(newPos1);   // 点滅
-      labelText(timeState);  // 点滅
+      stateText(timeState);  // 点滅
     }
     oldTimeStateColor = timeState.fgcolor;
     delay(FRAMERATEDELAY);
@@ -2549,7 +2621,20 @@ void setup() {
   tft.setPanel(&panel);
   tft.init();
   tft.setRotation(3);
+
+
+
+
+
+  
   Serial.println("TFT initialized");
+
+  pinMode(TFT_BACKLIGHT_PIN,OUTPUT);
+  digitalWrite(TFT_BACKLIGHT_PIN,HIGH);
+  sprite.createSprite(spritesizex,spritesizey);
+  
+  Serial.println("sprite initialized");
+
   labelText(notifyInitializing);
   pinMode(ENCODER1_SWITCH_PIN, INPUT_PULLUP);
   pinMode(ENCODER2_SWITCH_PIN, INPUT_PULLUP);
@@ -2708,6 +2793,7 @@ void setup() {
 
   // digitalWrite(TFT_BACKLIGHT_PIN,HIGH);
   runFAN();
+  delay(10000);
   Serial.println("FAN start");
 
   //tft.begin();
