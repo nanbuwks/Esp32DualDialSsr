@@ -7,7 +7,7 @@
 //#include <SPIFFS.h>
 //#include <FS.h>
 #include <EEPROM.h>
-#define VERSION "Ver1.4"
+#define VERSION "Ver1.41"
 #define MODEXDEFAULT 0 // 1 ... 空間除菌有効
 #include "commercial.h"
 struct LGFX_Config
@@ -1243,6 +1243,9 @@ void drawTime() { // 時間描画 (spriteに書く)
     Serial.println(timeSecond.text);
     Serial.println(timeHour.text.compareTo("  "));
   */
+
+  sprite.fillRect(0,0, spritesizex, spritesizey,OzonePnColor);
+  
   if ( 0 != timeHour.text.compareTo("  "))
   {
     labelTextSprite(timeHour);      // 3600秒以上の場合
@@ -1267,6 +1270,7 @@ void drawTime() { // 時間描画 (spriteに書く)
 }
 void drawSetDisp() {         // 描画一式
   tft.fillScreen(OzoneBgColor);
+
  // sprite.fillRect(22-spriteoffsetx, 13-spriteoffsety, spritesizex, spritesizey, OzonePnColor);
   sprite.fillRect(0,0, spritesizex, spritesizey,OzonePnColor);
 //  sprite.fillRect(35-spriteoffsetx, 25-spriteoffsety, 211, 30, OzoneTitleColor);
@@ -2161,6 +2165,7 @@ int set() {
 //  sprite.fillRect(22-spriteoffsetx, 13-spriteoffsety, 277, 154, OzonePnColor);
 //  tft.fillRect(22, 13, 277, 154, OzonePnColor);
 //  tft.fillRect(22, 13, 277, 154, TFT_SKYBLUE);
+
   drawTimeAs(newPos1);  // 時間表示部分 時間の文字列を作成 副作用で画面に出力される
 
 
@@ -2815,6 +2820,7 @@ void setup() {
     caution();
   }
   stopFAN();
+
 }
 
 void loop()
