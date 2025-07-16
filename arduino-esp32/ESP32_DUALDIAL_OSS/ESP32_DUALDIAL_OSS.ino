@@ -1,14 +1,15 @@
 #include <LovyanGFX.hpp>
 
 /*
-#include <LovyanGFX.hpp>
+#include <LovyanGFX.hpp>  
 
 */
 //#include <SPIFFS.h>
 //#include <FS.h>
 #include <EEPROM.h>
-#define VERSION "Ver1.41"
-#define MODEXDEFAULT 0 // 1 ... 空間除菌有効
+#define VERSION "Ver1.43"
+#define MODEXDEFAULT 0
+// 1 ... 空間除菌有効
 #include "commercial.h"
 struct LGFX_Config
 {
@@ -81,7 +82,7 @@ RotaryEncoder encoder2(ENCODER2_A_PIN, ENCODER2_B_PIN);
 
 
 
-LABEL maintenanceLabels1[6] = { md130, md120, md121, md122, md123 , md124};
+LABEL maintenanceLabels1[6] = { md120, md121, md122, md123 , md124 , md130 };
 LABEL maintenanceLabels2[8] = { md210, md211, md212, md213, md214, md215, m216, m217 };
 // LABEL setLabels[2]={ setCONNECT,setRETURN};
 // LABEL scanLabels[4]={ scannode1,scannode2,scannode3,scannode4};
@@ -575,7 +576,7 @@ int maintenanceSelect1() {
     if ( 1 == encoder1Pushed ) {
       encoder1Pushed = 0;
       switch (selected) {
-        case 0:
+        case 5:
           // modeX
           Serial.println("modeX change");
           if (  maintenanceLabels1[selected].text == "OFF" ) {
@@ -596,7 +597,7 @@ int maintenanceSelect1() {
 
           }
           break;
-        case 1:
+        case 0:
           // pump
           if (  maintenanceLabels1[selected].text == "OFF" ) {
             maintenanceLabels1[selected].text = "ON";
@@ -608,7 +609,7 @@ int maintenanceSelect1() {
             digitalWrite(PUMP_PIN, LOW);
           }
           break;
-        case 2:
+        case 1:
           // ozone0
           if (  maintenanceLabels1[selected].text == "OFF" ) {
             maintenanceLabels1[selected].text = "ON";
@@ -620,7 +621,7 @@ int maintenanceSelect1() {
             digitalWrite(OZONE_PIN[0], LOW);
           }
           break;
-        case 3:
+        case 2:
           // ozone1
           if (  maintenanceLabels1[selected].text == "OFF" ) {
             maintenanceLabels1[selected].text = "ON";
@@ -633,7 +634,7 @@ int maintenanceSelect1() {
           }
           break;
 
-        case 4:
+        case 3:
           // ozone2
           if (  maintenanceLabels1[selected].text == "OFF" ) {
             maintenanceLabels1[selected].text = "ON";
@@ -646,7 +647,7 @@ int maintenanceSelect1() {
           }
           break;
 
-        case 5:
+        case 4:
           // ozone
           log_ozone10 = 0;
           log_OZONE10[0] = 0;
@@ -1712,18 +1713,26 @@ void eeprom_read() {
     }
   }
 
-  if ( -1 != data[1] ) oneshot_Ozonelevel = data[1];
-  if ( -1 != data[2] ) oneshot_endtime = data[2];
-  if ( -1 != data[3] ) program_Ozonelevel = data[3];
-  if ( -1 != data[4] ) program_starttime = data[4];
-  if ( -1 != data[5] ) program_endtime = data[5];
-  if ( -1 != data[6] ) log_pump = data[6];
-  if ( -1 != data[7] ) log_ozone = data[7];
-  if ( -1 != data[8] ) log_fan = data[8];
-  if ( -1 != data[9] ) log_oncount = data[9];
-  if ( -1 != data[10] ) mode_X = data[10];
-  if ( -1 == data[0] )  Serial.println("EEPROM seems first use!");
+
+  if (
+    0 > data[1] || 0 > data[2] || 0 > data[3] || 0 > data[4] || 0 > data[5] ||
+    0 > data[6] || 0 > data[7] || 0 > data[8] || 0 > data[9] || 0 > data[10] ||
+    WAITTIMEMAX < data[2] || WAITTIMEMAX < data[4] || WAITTIMEMAX < data[5] )
+ {     
+  Serial.println("EEPROM seems first use!");
   log_ozone10 = log_ozone * 10;
+ } else {
+   oneshot_Ozonelevel = data[1];
+   oneshot_endtime = data[2];
+   program_Ozonelevel = data[3];
+   program_starttime = data[4];
+   program_endtime = data[5];
+   log_pump = data[6];
+   log_ozone = data[7];
+   log_fan = data[8];
+   log_oncount = data[9];
+   mode_X = data[10];
+   }
 }
 
 int getTwiceTimeLevel(int seconds) {  // timeLevel の
@@ -2493,7 +2502,7 @@ void maintenancemode1() {
   if ( 0 == mode_X) {
     maintenanceLabels1[0].text = "OFF";
   } else {
-    maintenanceLabels1[0].text = "ON";
+    maintenanceLabels1[0].text = "OFF";
   }
   tft.fillScreen(TFT_BLACK);
   labelText(m1title1);
